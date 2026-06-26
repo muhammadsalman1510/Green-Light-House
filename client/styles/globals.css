@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --clr-primary:        #1A4731;
+  --clr-primary-dark:   #122F21;
+  --clr-gold:           #C9A84C;
+  --clr-gold-dark:      #A8893A;
+  --clr-whatsapp:       #25D366;
+  --clr-page-bg:        #F8F7F4;
+  --clr-surface:        #FFFFFF;
+  --clr-text-primary:   #1C1C1C;
+  --clr-text-secondary: #6B6B6B;
+  --clr-text-muted:     #999999;
+  --clr-border:         #E8E8E8;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body:    'Inter', -apple-system, sans-serif;
+  --font-label:   'Montserrat', Arial, sans-serif;
+}
+
+html.dark {
+  --clr-page-bg:        #090909;
+  --clr-surface:        #111111;
+  --clr-text-primary:   #F0EDE6;
+  --clr-text-secondary: rgba(255,255,255,0.55);
+  --clr-text-muted:     rgba(255,255,255,0.30);
+  --clr-border:         rgba(255,255,255,0.08);
+}
+
+body {
+  background-color: var(--clr-page-bg);
+  color: var(--clr-text-primary);
+  font-family: var(--font-body);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+}
+
+/* ── Category Card ─────────────────────────────────────────── */
+.category-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.category-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 500ms ease;
+}
+
+.category-card:hover img {
+  transform: scale(1.06);
+}
+
+.category-card .cat-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.82) 0%,
+    rgba(0,0,0,0.25) 40%,
+    rgba(0,0,0,0.06) 70%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.category-card .cat-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ── Product Card ─────────────────────────────────────────── */
+.product-card {
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 250ms ease, box-shadow 250ms ease;
+  background: var(--clr-surface);
+  border: 0.5px solid var(--clr-border);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.product-card .product-image {
+  overflow: hidden;
+  position: relative;
+}
+
+.product-card .product-image img {
+  transition: transform 400ms ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.04);
+}
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--clr-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--clr-text-muted); }
