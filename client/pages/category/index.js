@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import SEO from '../../components/SEO';
 import Breadcrumb from '../../components/ui/Breadcrumb';
 import CategoryCard from '../../components/ui/CategoryCard';
 import { categoriesAPI } from '../../lib/api';
@@ -11,14 +11,11 @@ export default function AllCategoriesPage({ categories }) {
 
   return (
     <>
-      <Head>
-        <title>All Categories | Green Light House</title>
-        <meta
-          name="description"
-          content="Browse all lighting categories at Green Light House — Indoor, Outdoor, Chandeliers, Decorative, LED Panels and more."
-        />
-        <link rel="canonical" href="https://greenlighthouse.pk/category" />
-      </Head>
+      <SEO
+        title="All Categories"
+        description="Browse all lighting categories at Green Light House — Indoor, Outdoor, Chandeliers, Decorative, LED Panels and more."
+        canonical="/category"
+      />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 20px 64px' }}>
         <Breadcrumb items={breadcrumbs} />

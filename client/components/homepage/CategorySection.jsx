@@ -18,7 +18,7 @@ export default function CategorySection({ categories }) {
           }}>
             Explore Our Range
           </p>
-          <h2 style={{
+          <h1 style={{
             fontFamily: 'var(--font-heading)',
             fontSize: 'clamp(20px, 3vw, 28px)',
             color: 'var(--clr-text-primary)',
@@ -27,16 +27,17 @@ export default function CategorySection({ categories }) {
             margin: 0,
           }}>
             Browse by Category
-          </h2>
+          </h1>
         </div>
 
         {/* One card per row */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <CategoryCard
               key={category._id}
               category={category}
               size="homepage"
+              isPriority={index === 0}
             />
           ))}
         </div>

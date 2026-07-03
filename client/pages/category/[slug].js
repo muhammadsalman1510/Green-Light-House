@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Head from 'next/head';
+import SEO from '../../components/SEO';
 import Breadcrumb from '../../components/ui/Breadcrumb';
 import CategoryCard from '../../components/ui/CategoryCard';
 import ProductCard from '../../components/ui/ProductCard';
@@ -23,20 +23,24 @@ export default function CategoryPage({
 
   return (
     <>
-      <Head>
-        <title>{`${category.name} | Green Light House`}</title>
-        <meta
-          name="description"
-          content={
-            category.description ||
-            `Browse ${category.name} at Green Light House — premium lighting store in Lahore, Pakistan.`
-          }
-        />
-        <link
-          rel="canonical"
-          href={`https://greenlighthouse.pk/category/${category.slug}`}
-        />
-      </Head>
+      <SEO
+        title={category.name}
+        description={
+          category.description ||
+          `Shop ${category.name} at Green Light House, Lahore. Premium quality lighting for Pakistani homes and offices.`
+        }
+        canonical={`/category/${category.slug}`}
+        jsonLd={{
+          '@context':       'https://schema.org',
+          '@type':          'BreadcrumbList',
+          itemListElement:  breadcrumbs.map((crumb, i) => ({
+            '@type':   'ListItem',
+            position:  i + 1,
+            name:      crumb.label,
+            item:      crumb.href ? `https://greenlighthouse.pk${crumb.href}` : undefined,
+          })),
+        }}
+      />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 20px 64px' }}>
 

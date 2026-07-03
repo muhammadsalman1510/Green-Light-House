@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Head from 'next/head';
 import SEO from '../components/SEO';
 import Breadcrumb from '../components/ui/Breadcrumb';
 
@@ -55,19 +54,6 @@ const faqs = [
     a: 'The domain greenlighthouse.pk (two Es, our correct store name) was unfortunately already registered. We secured greenlighthouse.pk as our official web address but our social media handles use greeenlighthouse (three Es) due to the same availability issue. Apologies for any confusion — we are the only Green Light House in Township, Lahore.',
   },
 ];
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((f) => ({
-    '@type': 'Question',
-    name: f.q,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: f.a,
-    },
-  })),
-};
 
 function FaqItem({ faq, isOpen, onToggle }) {
   return (
@@ -155,21 +141,26 @@ export default function FaqPage() {
   return (
     <>
       <SEO
-        title="FAQ"
+        title="Frequently Asked Questions"
         description="Frequently asked questions about Green Light House — ordering, delivery, warranty, and returns."
         canonical="/faq"
+        jsonLd={{
+          '@context':  'https://schema.org',
+          '@type':     'FAQPage',
+          mainEntity:  faqs.map((f) => ({
+            '@type': 'Question',
+            name:    f.q,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text:    f.a,
+            },
+          })),
+        }}
       />
-      <Head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-      </Head>
 
       <div style={{ maxWidth: '760px', margin: '0 auto', padding: '32px 20px 80px' }}>
         <Breadcrumb items={breadcrumbs} />
 
-        {/* Heading */}
         <h1
           style={{
             fontFamily: 'var(--font-heading)',
@@ -197,7 +188,6 @@ export default function FaqPage() {
 
         <div style={{ height: '0.5px', background: 'var(--clr-border)', marginBottom: '0' }} />
 
-        {/* Accordion */}
         <div>
           {faqs.map((faq) => (
             <FaqItem
@@ -209,7 +199,6 @@ export default function FaqPage() {
           ))}
         </div>
 
-        {/* Bottom CTA */}
         <div
           style={{
             marginTop: '48px',

@@ -1,12 +1,10 @@
-import Head from 'next/head';
 import Link from 'next/link';
+import SEO from '../components/SEO';
 
 export default function NotFound() {
   return (
     <>
-      <Head>
-        <title>Page Not Found | Green Light House</title>
-      </Head>
+      <SEO title="Page Not Found" noindex={true} />
 
       <div
         style={{

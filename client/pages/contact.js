@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Head from 'next/head';
 import SEO from '../components/SEO';
 import Breadcrumb from '../components/ui/Breadcrumb';
 
@@ -113,15 +112,10 @@ export default function ContactPage() {
     <>
       <SEO
         title="Contact Us"
-        description="Contact Green Light House via WhatsApp or visit our store in Township, Lahore. Open Monday to Saturday 10am–8pm."
+        description="Contact Green Light House via WhatsApp 0323-4641691 or visit our store at Khokhar Chowk, Township, Lahore. Open Monday to Saturday 10am–8pm."
         canonical="/contact"
+        jsonLd={localBusinessSchema}
       />
-      <Head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-        />
-      </Head>
 
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '32px 20px 80px' }}>
         <Breadcrumb items={breadcrumbs} />

@@ -8,7 +8,35 @@ import SEO from '../components/SEO';
 export default function Home({ categories, newArrivals, featured, sale }) {
   return (
     <>
-      <SEO canonical="/" />
+      <SEO
+        canonical="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type':    'LightingStore',
+          name:       'Green Light House',
+          url:        'https://greenlighthouse.pk',
+          telephone:  '+923234641691',
+          image:      'https://greenlighthouse.pk/og-image.jpg',
+          description: 'Premium lighting store in Township, Lahore, Pakistan.',
+          address: {
+            '@type':         'PostalAddress',
+            streetAddress:   'Shop 7, 10-1-BII, Khokhar Chowk, College Road',
+            addressLocality: 'Township, Lahore',
+            addressCountry:  'PK',
+          },
+          openingHoursSpecification: {
+            '@type':     'OpeningHoursSpecification',
+            dayOfWeek:   ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+            opens:       '10:00',
+            closes:      '20:00',
+          },
+          sameAs: [
+            'https://www.instagram.com/greenlight.lhr',
+            'https://www.facebook.com/greeenlighthouse',
+          ],
+          priceRange: '$$',
+        }}
+      />
 
       <CategorySection categories={categories} />
 

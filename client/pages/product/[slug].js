@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import Head from 'next/head';
+import SEO from '../../components/SEO';
 import { Toaster, toast } from 'react-hot-toast';
 import Breadcrumb from '../../components/ui/Breadcrumb';
 import Badge from '../../components/ui/Badge';
@@ -56,49 +56,47 @@ export default function ProductPage({ product, relatedProducts, breadcrumbs }) {
 
   return (
     <>
-      <Head>
-        <title>{`${product.name} | Green Light House`}</title>
-        <meta
-          name="description"
-          content={
-            product.shortDesc ||
-            `Buy ${product.name} at Green Light House, Lahore.${product.specs?.wattage ? ` ${product.specs.wattage}.` : ''} Order via WhatsApp.`
-          }
-        />
-        <link
-          rel="canonical"
-          href={`https://greenlighthouse.pk/product/${product.slug}`}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Product',
-              name: product.name,
-              description: product.description,
-              sku: product.sku,
-              image: product.images || [],
-              offers: {
-                '@type': 'Offer',
-                price: displayPrice,
-                priceCurrency: 'PKR',
-                availability: isOutOfStock
-                  ? 'https://schema.org/OutOfStock'
-                  : 'https://schema.org/InStock',
-                seller: { '@type': 'Organization', name: 'Green Light House' },
-              },
-              ...(product.reviewCount > 0 && {
-                aggregateRating: {
-                  '@type': 'AggregateRating',
-                  ratingValue: product.avgRating,
-                  reviewCount: product.reviewCount,
-                },
-              }),
-            }),
-          }}
-        />
-      </Head>
+      <SEO
+        title={product.name}
+        description={
+          product.shortDesc ||
+          `Buy ${product.name} at Green Light House, Lahore.${product.specs?.wattage ? ` ${product.specs.wattage}.` : ''} Premium quality. Order via WhatsApp: 0323-4641691.`
+        }
+        canonical={`/product/${product.slug}`}
+        image={product.images?.[0] || undefined}
+        type="product"
+        jsonLd={{
+          '@context':  'https://schema.org',
+          '@type':     'Product',
+          name:        product.name,
+          description: product.description || product.shortDesc,
+          sku:         product.sku,
+          image:       product.images || [],
+          brand: {
+            '@type': 'Brand',
+            name:    'Green Light House',
+          },
+          offers: {
+            '@type':        'Offer',
+            price:          displayPrice,
+            priceCurrency:  'PKR',
+            availability:   isOutOfStock
+              ? 'https://schema.org/OutOfStock'
+              : 'https://schema.org/InStock',
+            seller: { '@type': 'Organization', name: 'Green Light House' },
+            url: `https://greenlighthouse.pk/product/${product.slug}`,
+          },
+          ...(product.reviewCount > 0 ? {
+            aggregateRating: {
+              '@type':      'AggregateRating',
+              ratingValue:  product.avgRating,
+              reviewCount:  product.reviewCount,
+              bestRating:   5,
+              worstRating:  1,
+            },
+          } : {}),
+        }}
+      />
 
       <Toaster position="top-right" />
 

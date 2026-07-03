@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import SEO from '../components/SEO';
 import Breadcrumb from '../components/ui/Breadcrumb';
 
@@ -52,7 +53,11 @@ export default function AboutPage() {
           <p style={{ marginBottom: '40px' }}>
             Whether you are furnishing a new home, upgrading your office lighting, or
             looking for a statement chandelier, our team is ready to help you find the
-            perfect fixture for your space.
+            perfect fixture for your space.{' '}
+            <Link href="/category" style={{ color: '#1A4731', borderBottom: '1px solid #1A4731', textDecoration: 'none' }}>
+              Browse our lighting collection
+            </Link>{' '}
+            to explore what we carry.
           </p>
         </div>
 

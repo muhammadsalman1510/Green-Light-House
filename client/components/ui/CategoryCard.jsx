@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function CategoryCard({ category, size = 'homepage' }) {
+export default function CategoryCard({ category, size = 'homepage', isPriority = false }) {
   const isHomepage = size === 'homepage';
 
   return (
@@ -19,10 +19,12 @@ export default function CategoryCard({ category, size = 'homepage' }) {
           {category.image && (
             <Image
               src={category.image}
-              alt={category.name}
+              alt={`${category.name} — Green Light House`}
               fill
+              sizes="(max-width: 768px) 100vw, 100vw"
               className="object-cover object-center"
               style={{ transition: 'transform 500ms ease' }}
+              priority={isPriority}
             />
           )}
 

@@ -1,9 +1,15 @@
 User-agent: *
 Allow: /
-
 Disallow: /admin
 Disallow: /admin/
-Disallow: /api/
 Disallow: /cart
+Disallow: /api/
 
 Sitemap: https://greenlighthouse.pk/sitemap.xml
+
+# Common crawlers that may abuse Pakistani sites
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
