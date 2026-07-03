@@ -4,15 +4,8 @@ import Breadcrumb from '../../components/ui/Breadcrumb';
 import CategoryCard from '../../components/ui/CategoryCard';
 import ProductCard from '../../components/ui/ProductCard';
 import ProductFilters from '../../components/category/ProductFilters';
-import { mockCategories } from '../../lib/mockData';
-import {
-  getCategoryBySlug,
-  getSubcategories,
-  isLeafCategory,
-  getProductsByCategory,
-  getBreadcrumbs,
-  filterAndSortProducts,
-} from '../../lib/categoryUtils';
+import { categoriesAPI, productsAPI } from '../../lib/api';
+import { filterAndSortProducts } from '../../lib/categoryUtils';
 
 export default function CategoryPage({
   category,
@@ -160,33 +153,44 @@ export default function CategoryPage({
   );
 }
 
-export async function getStaticPaths() {
-  const paths = mockCategories.map((cat) => ({
-    params: { slug: cat.slug },
-  }));
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const { slug } = params;
-  const category = getCategoryBySlug(slug);
 
-  if (!category) {
+  try {
+    const category = await categoriesAPI.getBySlug(slug);
+    if (!category) return { notFound: true };
+
+    const subcategories = await categoriesAPI.getChildren(slug);
+    const isLeaf = subcategories.length === 0;
+
+    let products = [];
+    if (isLeaf) {
+      const data = await productsAPI.getAll({ category: slug, limit: 50 });
+      products = data?.products || [];
+    }
+
+    const breadcrumbs = [{ label: 'Home', href: '/' }];
+
+    if (category.parent) {
+      breadcrumbs.push({
+        label: category.parent.name,
+        href: `/category/${category.parent.slug}`,
+      });
+    }
+
+    breadcrumbs.push({ label: category.name, href: null });
+
+    return {
+      props: {
+        category,
+        subcategories,
+        products,
+        isLeaf,
+        breadcrumbs,
+      },
+    };
+  } catch (err) {
+    console.error(`[/category/${slug}] API error:`, err.message);
     return { notFound: true };
   }
-
-  const subcategories = getSubcategories(slug);
-  const leaf = isLeafCategory(slug);
-  const products = leaf ? getProductsByCategory(slug) : [];
-  const breadcrumbs = getBreadcrumbs(slug);
-
-  return {
-    props: {
-      category,
-      subcategories,
-      products,
-      isLeaf: leaf,
-      breadcrumbs,
-    },
-  };
 }

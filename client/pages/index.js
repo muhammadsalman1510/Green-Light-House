@@ -1,31 +1,16 @@
-import Head from 'next/head';
-import { mockCategories, mockProducts, mockReviews } from '../lib/mockData';
+import { categoriesAPI, productsAPI } from '../lib/api';
 import CategorySection from '../components/homepage/CategorySection';
 import ProductSection from '../components/homepage/ProductSection';
 import ReviewsSection from '../components/homepage/ReviewsSection';
 import WhatsAppCTASection from '../components/homepage/WhatsAppCTASection';
+import SEO from '../components/SEO';
 
-export default function Home() {
-  const newArrivals = mockProducts.filter((p) => p.isNewArrival);
-  const featured = mockProducts.filter((p) => p.isFeatured);
-  const sale = mockProducts.filter((p) => p.salePrice);
-
+export default function Home({ categories, newArrivals, featured, sale }) {
   return (
     <>
-      <Head>
-        <title>Green Light House | Premium Lighting Store in Lahore, Pakistan</title>
-        <meta
-          name="description"
-          content="Shop premium indoor and outdoor lighting at Green Light House, Lahore. Chandeliers, pendants, wall lights, LED panels and more. Order via WhatsApp: 0323-4641691."
-        />
-        <meta name="keywords" content="lights Lahore, ceiling lights Pakistan, chandeliers, pendant lights, LED lights, outdoor lights" />
-        <meta property="og:title" content="Green Light House | Premium Lighting" />
-        <meta property="og:description" content="Premium lighting for Pakistani homes and offices." />
-        <meta property="og:url" content="https://greenlighthouse.pk" />
-        <link rel="canonical" href="https://greenlighthouse.pk" />
-      </Head>
+      <SEO canonical="/" />
 
-      <CategorySection categories={mockCategories} />
+      <CategorySection categories={categories} />
 
       <ProductSection
         eyebrow="Just Landed"
@@ -51,9 +36,40 @@ export default function Home() {
         />
       )}
 
-      <ReviewsSection reviews={mockReviews} />
+      <ReviewsSection reviews={[]} />
 
       <WhatsAppCTASection />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const [categoriesData, newArrivalsData, featuredData, saleData] =
+      await Promise.all([
+        categoriesAPI.getTopLevel(),
+        productsAPI.getAll({ newArrival: 'true', limit: 8 }),
+        productsAPI.getAll({ featured: 'true', limit: 8 }),
+        productsAPI.getAll({ sale: 'true', limit: 8 }),
+      ]);
+
+    return {
+      props: {
+        categories:  categoriesData || [],
+        newArrivals: newArrivalsData?.products || [],
+        featured:    featuredData?.products || [],
+        sale:        saleData?.products || [],
+      },
+    };
+  } catch (err) {
+    console.error('[Homepage] API error:', err.message);
+    return {
+      props: {
+        categories:  [],
+        newArrivals: [],
+        featured:    [],
+        sale:        [],
+      },
+    };
+  }
 }

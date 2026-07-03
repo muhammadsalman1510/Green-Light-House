@@ -1,0 +1,37 @@
+GREEN LIGHT HOUSE — PRE-LAUNCH CHECKLIST
+==========================================
+
+CONTENT (do before going live):
+[ ] Add all real product categories via admin panel
+[ ] Add all real products with real photos via admin panel
+[ ] Upload real category photos (room/lifestyle shots)
+[ ] Update Settings page with real business hours
+[ ] Update Settings page delivery policy text
+[ ] Update About page text with real store story
+[ ] Create og-image.jpg (1200x630) and place in client/public/
+[ ] Change admin password from "changeme123" to something strong
+
+TECHNICAL (verify before going live):
+[ ] npm run build completes without errors
+[ ] Both servers running and communicating correctly
+[ ] Image upload works end-to-end
+[ ] WhatsApp order flow tested on a real phone
+[ ] Cart -> Place Order -> WhatsApp opens correctly
+[ ] Contact page Google Maps embed shows correct location
+[ ] All social media links open correct profiles
+[ ] Dark mode toggle works correctly
+[ ] Mobile view tested on a real phone
+[ ] Search returns correct results
+[ ] Category navigation works to all levels
+[ ] Product detail page shows correctly
+[ ] Admin login works with new password
+[ ] Reviews can be submitted and approved
+
+AFTER GOING LIVE:
+[ ] Submit sitemap to Google Search Console:
+    Go to search.google.com/search-console
+    Add property: greenlighthouse.pk
+    Submit sitemap: https://greenlighthouse.pk/sitemap.xml
+[ ] Set up Google Analytics (optional but recommended)
+[ ] Test all pages at greenlighthouse.pk (not localhost)
+[ ] Test WhatsApp flow on the live site

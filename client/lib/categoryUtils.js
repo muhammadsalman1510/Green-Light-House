@@ -57,6 +57,27 @@ export function getBreadcrumbs(slug) {
   return crumbs;
 }
 
+export function getProductBySlug(slug) {
+  return mockProducts.find((p) => p.slug === slug) || null;
+}
+
+export function getRelatedProducts(product, limit = 4) {
+  return mockProducts
+    .filter((p) => p.categorySlug === product.categorySlug && p._id !== product._id)
+    .slice(0, limit);
+}
+
+export function getProductBreadcrumbs(product) {
+  const categoryBreadcrumbs = getBreadcrumbs(product.categorySlug);
+  const withHref = categoryBreadcrumbs.map((crumb, i) => {
+    if (i === categoryBreadcrumbs.length - 1) {
+      return { ...crumb, href: `/category/${product.categorySlug}` };
+    }
+    return crumb;
+  });
+  return [...withHref, { label: product.name, href: null }];
+}
+
 export function filterAndSortProducts(products, { sortBy, inStockOnly, maxPrice, minPrice } = {}) {
   let result = [...products];
 

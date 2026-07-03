@@ -1,17 +1,16 @@
 import { useState } from 'react';
-import Head from 'next/head';
+import SEO from '../components/SEO';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import ProductCard from '../components/ui/ProductCard';
 import ProductFilters from '../components/category/ProductFilters';
-import { mockProducts } from '../lib/mockData';
+import { productsAPI } from '../lib/api';
 import { filterAndSortProducts } from '../lib/categoryUtils';
 
-export default function NewArrivalsPage() {
+export default function NewArrivalsPage({ initialProducts }) {
   const [sortBy, setSortBy] = useState('newest');
   const [inStockOnly, setInStockOnly] = useState(false);
 
-  const newProducts = mockProducts.filter((p) => p.isNewArrival);
-  const filtered = filterAndSortProducts(newProducts, { sortBy, inStockOnly });
+  const filtered = filterAndSortProducts(initialProducts, { sortBy, inStockOnly });
 
   const breadcrumbs = [
     { label: 'Home', href: '/' },
@@ -20,14 +19,11 @@ export default function NewArrivalsPage() {
 
   return (
     <>
-      <Head>
-        <title>New Arrivals | Green Light House</title>
-        <meta
-          name="description"
-          content="Shop the latest lighting arrivals at Green Light House, Lahore. Fresh stock updated regularly."
-        />
-        <link rel="canonical" href="https://greenlighthouse.pk/new-arrivals" />
-      </Head>
+      <SEO
+        title="New Arrivals"
+        description="Shop the latest lighting arrivals at Green Light House. New stock added regularly."
+        canonical="/new-arrivals"
+      />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 20px 64px' }}>
         <Breadcrumb items={breadcrumbs} />
@@ -70,4 +66,13 @@ export default function NewArrivalsPage() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const data = await productsAPI.getAll({ newArrival: 'true', limit: 50 });
+    return { props: { initialProducts: data?.products || [] } };
+  } catch (err) {
+    return { props: { initialProducts: [] } };
+  }
 }

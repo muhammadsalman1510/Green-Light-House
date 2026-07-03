@@ -124,3 +124,21 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--clr-border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--clr-text-muted); }
+
+/* ── Skeleton shimmer ─────────────────────────────────────── */
+@keyframes glh-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--clr-border) 25%,
+    color-mix(in srgb, var(--clr-border) 50%, var(--clr-page-bg)) 50%,
+    var(--clr-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: glh-shimmer 1.5s infinite linear;
+  border-radius: 4px;
+}

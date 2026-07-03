@@ -78,6 +78,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    if (router.pathname === '/search') {
+      setSearchQuery(router.query.q || '');
+    }
+  }, [router.pathname, router.query.q]);
+
   const handleDrawerNav = (href) => {
     setDrawerOpen(false);
     router.push(href);
@@ -139,27 +145,46 @@ export default function Navbar() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexShrink: 0 }}>
 
             {/* Search bar */}
-            <div
-              onClick={() => router.push('/search')}
-              style={{
-                background: 'rgba(255,255,255,0.08)',
-                border: '0.5px solid rgba(255,255,255,0.14)',
-                borderRadius: '3px',
-                padding: '6px 12px',
-                display: 'flex',
-                gap: '8px',
-                alignItems: 'center',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="2" strokeLinecap="round">
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
-              </svg>
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'rgba(255,255,255,0.28)', whiteSpace: 'nowrap' }}>
-                Search products...
-              </span>
-            </div>
+            <form onSubmit={handleSearch} style={{ position: 'relative' }}>
+              <button
+                type="submit"
+                aria-label="Search"
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="2" strokeLinecap="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.35-4.35" />
+                </svg>
+              </button>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products..."
+                style={{
+                  background: 'rgba(255,255,255,0.08)',
+                  border: '0.5px solid rgba(255,255,255,0.14)',
+                  borderRadius: '3px',
+                  padding: '6px 12px 6px 30px',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '11px',
+                  color: 'white',
+                  width: '180px',
+                  outline: 'none',
+                }}
+              />
+            </form>
 
             {/* Wishlist */}
             <button

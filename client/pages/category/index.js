@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Breadcrumb from '../../components/ui/Breadcrumb';
 import CategoryCard from '../../components/ui/CategoryCard';
-import { getTopLevelCategories } from '../../lib/categoryUtils';
+import { categoriesAPI } from '../../lib/api';
 
 export default function AllCategoriesPage({ categories }) {
   const breadcrumbs = [
@@ -65,9 +65,12 @@ export default function AllCategoriesPage({ categories }) {
   );
 }
 
-export async function getStaticProps() {
-  const categories = getTopLevelCategories();
-  return {
-    props: { categories },
-  };
+export async function getServerSideProps() {
+  try {
+    const categories = await categoriesAPI.getTopLevel();
+    return { props: { categories: categories || [] } };
+  } catch (err) {
+    console.error('[/category] API error:', err.message);
+    return { props: { categories: [] } };
+  }
 }
